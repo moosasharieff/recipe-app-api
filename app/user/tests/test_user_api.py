@@ -8,8 +8,8 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-
 CREATE_USER_URL = reverse('user:create')
+
 
 def create_user(**params):
     """Func() to create new users with dynamic params."""
@@ -33,7 +33,6 @@ class PublicUserApiTests(TestCase):
 
         response = self.client.post(CREATE_USER_URL, payload)
 
-        # Assertions
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         user = get_user_model().objects.get(email=payload['email'])
@@ -48,11 +47,9 @@ class PublicUserApiTests(TestCase):
             'name': 'Tester',
         }
 
-        user = create_user(**payload)
-        response = self.client.get(CREATE_USER_URL, payload)
-
-        # Assertions
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_RREQUEST)
+        create_user(**payload)
+        response = self.client.post(CREATE_USER_URL, payload)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_short_password(self):
         """Test error is return if password length is short."""
@@ -66,5 +63,6 @@ class PublicUserApiTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-        user_exists = get_user_model().objects.filter(email=payload['email']).exits()
+        user_exists = get_user_model().objects.filter(
+            email=payload['email']).exists()
         self.assertFalse(user_exists)
