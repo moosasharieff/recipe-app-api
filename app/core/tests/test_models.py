@@ -63,7 +63,7 @@ class ModelTests(TestCase):
             user=user,
             title='Sample recipe name',
             time_taken=5,
-            preparation_cost=Decimal(5.50),
+            cost=Decimal(5.50),
             description='Sample recipe description.'
         )
 
