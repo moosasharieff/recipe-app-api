@@ -51,7 +51,7 @@ class ModelTests(TestCase):
         # Assertions
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
-    
+
     def test_create_receipe(self):
         """Test creating a receipe is successful."""
         user = get_user_model().objects.create_user(
